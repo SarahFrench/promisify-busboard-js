@@ -7,17 +7,54 @@
   <body>
     <p>This is my page</p>
     <script>
-      let coffee = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/coffee.jpg');
-      let tea = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/tea.jpg');
-      let description = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/description.txt');
+      //let coffee = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/coffee.jpg');
+      //let tea = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/tea.jpg');
+      //let description = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/description.txt');
 
-      Promise.all([coffee, tea, description])
-      .then(values => {
-        console.log(values)
+      //Promise.all([coffee, tea, description])
+      //.then(values => {
+      //  console.log(values)
+      //})
+      //.catch(error => {
+      //  console.log("There was an error, it said: " + error)
+      //});
+
+
+      function fetchAndDecode(url, type) {
+        return fetch(url).then(response => {
+          if (type === 'blob') {
+            return response.blob();
+          } else if (type === 'text') {
+            return response.text();
+          }
+        })
+        .catch(e => {
+          console.log('There has been a problem with your fetch operation: ' + e.message);
+        });
+      }
+
+      let coffee = fetchAndDecode('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/coffee.jpg', 'blob');
+      let tea = fetchAndDecode('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/tea.jpg', 'blob');
+      let description = fetchAndDecode('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/description.txt', 'text');
+
+      Promise.all([coffee, tea, description]).then(values =>{
+        let objectURL1 = URL.createObjectURL(values[0]);
+        let objectURL2 = URL.createObjectURL(values[1]);
+        let descText = values[2]
+
+        let image1 = document.createElement('img');
+        let image2 = document.createElement('img');
+        image1.src= objectURL1;
+        image2.src= objectURL2;
+        document.body.appendChild(image1);
+        document.body.appendChild(image2);
+
+        let para = document.createElement('p');
+        para.textContent = descText;
+        document.body.appendChild(para);
       })
-      .catch(error => {
-        console.log("There was an error, it said: " + error)
-      });
+
+
     </script>
   </body>
 </html>
