@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+  </head>
+  <body>
+    <p>This is my page</p>
+    <script>
+      let coffee = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/coffee.jpg');
+      let tea = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/tea.jpg');
+      let description = fetch('https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/description.txt');
+
+      Promise.all([coffee, tea, description])
+      .then(values => {
+        console.log(values)
+      })
+      .catch(error => {
+        console.log("There was an error, it said: " + error)
+      });
+    </script>
+  </body>
+</html>
