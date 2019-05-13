@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+  </head>
+  <body>
+    <p>This is my page</p>
+    <p>I'm working though this tutorial: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises#Responding_to_failure</p>
+    <script>
+      // let promise = fetch("https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/coffee.jpg?raw=true"); //Need a URL, not good at relative paths?
+    	// let promise2 = promise.then(response => response.blob());
+      // let promise3 = promise2.then(myBlob => {
+    	//   let objectURL = URL.createObjectURL(myBlob);
+	  	//   let image = document.createElement('img');
+		  //   image.src = objectURL;
+      //   document.body.appendChild(image);
+      // })
+      // let errorCase = promise3.catch(e => {
+      //   console.log('There has been a problem with your fetch operation: ' + e.message);
+      // });
+
+    //Refactored
+    fetch("https://raw.githubusercontent.com/mdn/learning-area/master/javascript/asynchronous/promises/coffee.jpg?raw=true")
+      .then(response => response.blob())
+      .then(myBlob => {
+    	  let objectURL = URL.createObjectURL(myBlob);
+	  	  let image = document.createElement('img');
+		    image.src = objectURL;
+        document.body.appendChild(image);
+      })
+      .catch(e => {
+        console.log('There has been a problem with your fetch operation: ' + e.message);
+      });
+
+    </script>
+  </body>
+</html>
