@@ -47,9 +47,19 @@ export default class ConsoleRunner {
     }
 
     getLocationForPostCode(postcode) {
-      return new Promise ((resolve, reject)=>{
-        resolve(this.makeGetRequest(POSTCODES_BASE_URL, `postcodes/${postcode}`, [], function(responseBody) {
-        }))
+      return new Promise ((resolve, reject) => {
+        const url = this.buildUrl(POSTCODES_BASE_URL, `postcodes/${postcode}`, []);
+        request.get(url, (err, response, body) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else if (response.statusCode !== 200) {
+                console.log(response.statusCode);
+            } else {
+                resolve({ latitude: response.result.latitude, longitude: response.result.longitude });
+                reject(err);
+            }
+        });
       })
     }
 
@@ -81,14 +91,7 @@ export default class ConsoleRunner {
           return that.getLocationForPostCode(x);
         })
         .then( y => {
-          console.log(`HERE:\n${y}`);
-          return y
-        }).then( z => {
-          console.log(z.result.latitude)
-          return z
-        })
-        .then( a => {
-          console.log(`HERE2:\n${a}`);
+          console.log(y);
         })
         .catch(
           console.log("Error")
