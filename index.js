@@ -1,6 +1,6 @@
 import path from 'path';
 
-import ConsoleRunner from './consoleRunner';
+import ConsoleRunner from './consoleRunnerv4';
 
 const consoleRunner = new ConsoleRunner();
 
